@@ -29,8 +29,28 @@ void listInsert(struct list *list, int value) {
 
 // delete the first instance of node with 'value' from the linked list
 void listDelete(struct list *list, int value) {
-    // TODO
-    return;
+    if (list->head == NULL) {
+        return NULL;
+    }
+    if (list->head->value == value) {
+        struct node *newHead = list->head->next;
+        free(list->head);
+        list->head = newHead;
+        list->length--;
+        return;
+    }
+
+    struct node *prev = NULL;
+    for (struct node *curr = list->head; curr != NULL; curr = curr->next) {
+        if (curr->value == value) {
+            prev->next = curr->next;
+            free(curr);
+            list->length--;
+            return;
+        }
+
+        prev = curr;
+    }
 }
 
 int listLength(struct list *list) {
